@@ -1,4 +1,4 @@
-gatOrisoft Testing
+Gatling Orisoft Testing
 =========================
 
 This project are used for Stress Testing refer to https://gatling.io/docs/current/ for deeper understanding
