@@ -354,7 +354,7 @@ object ESSEMPMyDocument {
       .formParam("__EVENTTARGET", "ctl00$ctl00$ctl00$lbLogout")
       .formParam("__EVENTARGUMENT", "")
       .formParam("_TSM_HiddenField_", "ZaMfZ6yYhPPHZ1NeEf8j6-t902-6pHpn2MehV0eep-I1")
-      .formParam("__VIEWSTATE", "${viewStateSearch}")
+      .formParam("__VIEWSTATE", "${viewState}")
       .formParam("__VIEWSTATEGENERATOR", "08F0C9C6")
       .formParam("ctl00$ctl00$ctl00$selCultureName", "")
       .formParam("ctl00$ctl00$ctl00$selCountry", "1")

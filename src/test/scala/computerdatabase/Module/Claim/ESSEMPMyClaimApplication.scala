@@ -91,11 +91,11 @@ object ESSEMPMyClaimApplication {
       .formParam("CustomSearchParameters[0][Name]", "RequestId")
       .formParam("CustomSearchParameters[0][Value]", "")
       .formParam("CustomSearchParameters[1][Name]", "ClaimStatus")
-      .formParam("CustomSearchParameters[1][Value]", "P,A")
+      .formParam("CustomSearchParameters[1][Value]", "P")
       .formParam("CustomSearchParameters[2][Name]", "ClaimRequestType")
       .formParam("CustomSearchParameters[2][Value]", "claimapplication")
       .formParam("CustomSearchParameters[3][Name]", "SubmissionDateFrom")
-      .formParam("CustomSearchParameters[3][Value]", "2021/04/11")
+      .formParam("CustomSearchParameters[3][Value]", "2020/04/11")
       .formParam("CustomSearchParameters[4][Name]", "SubmissionDateTo")
       .formParam("CustomSearchParameters[4][Value]", "2022/05/11")
       .check(regex("""<td id="gvClaimApplicationListing_tccell0_0" class="dx-wrap dxgv dx-al"><a class="dxeHyperlink_MetropolisBlue" id="hl1" href="(|.+?)">""").saveAs("URL"))
@@ -145,7 +145,7 @@ object ESSEMPMyClaimApplication {
     }
 
   def logout = {
-    exec(http("request_105")
+    exec(http("Logout")
       .post("/Account/LogOff")
 
       .formParam("__RequestVerificationToken", "${__RequestVerificationTokenLogout}")

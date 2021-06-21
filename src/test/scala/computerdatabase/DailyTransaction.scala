@@ -18,10 +18,11 @@ class DailyTransaction extends Simulation{
 
 
   val httpProtocol = http
-    .baseUrl("https://orisoftst.orisoftsaas.com")
+    .baseUrl("https://orisoftst.orisoftsaas.com/")
     .disableFollowRedirect
 
   var loginFeeder1 = csv("data/ESSEMPLogin1001-2000.csv").queue
+  //val queue_size = loginFeeder1.readRecords.size
 
   val loginSupFeeder1 = csv("data/superior_Credential.csv").queue
 
@@ -40,12 +41,20 @@ class DailyTransaction extends Simulation{
   val ALSaveDraftex = exec(ESSEMPApplyLeave.loadLeaveForm,ESSEMPApplyLeave.saveLeaveDraft,ESSEMPApplyLeave.leaveLogout)
   val ALDeleteDraftex = exec(ESSEMPApplyLeave.loadLeaveForm,ESSEMPApplyLeave.getSavedDraft,ESSEMPApplyLeave.deleteSavedDraft,ESSEMPApplyLeave.leaveLogout)
   val ALSubmitDraftex = exec(ESSEMPApplyLeave.loadLeaveForm,ESSEMPApplyLeave.submitLeave,ESSEMPApplyLeave.leaveLogout)
+  val CancelLeave =  exec(ESSEMPCancelLeave.loadApplication,ESSEMPCancelLeave.displayList,ESSEMPCancelLeave.submitCancel,ESSEMPCancelLeave.logout)
+  val EmpLeaveEntitlement = exec(ESSEMPMyLeaveEntitlement.loadApplication,ESSEMPMyLeaveEntitlement.searchEntitle,ESSEMPMyLeaveEntitlement.logout)
+  val EMPLeaveApplication = exec(ESSEMPMyLeaveApplication.loadApplication,ESSEMPMyLeaveApplication.searchMLADate,ESSEMPMyLeaveApplication.displayList,ESSEMPMyLeaveApplication.submitWithdraw,ESSEMPMyLeaveApplication.logout)
+
+
   val checkClaimApplicationex = exec(ESSEMPMyClaimApplication.loadMyClaimApplication,ESSEMPMyClaimApplication.selectClaimApplication,ESSEMPMyClaimApplication.logout)
   val withdrawClaimApplicationex = exec(ESSEMPMyClaimApplication.loadMyClaimApplication,ESSEMPMyClaimApplication.selectClaimApplication,ESSEMPMyClaimApplication.withdrawClaim,ESSEMPMyClaimApplication.logout)
   val myDocumentCreateex = exec(ESSEMPMyDocument.loadMyDocument,ESSEMPMyDocument.clickCreateButton,ESSEMPMyDocument.submitCreateDocument,ESSEMPMyDocument.logout)
   val myDocumentDownloadex = exec(ESSEMPMyDocument.loadMyDocument,ESSEMPMyDocument.searchItem,ESSEMPMyDocument.clickDownloadItem,ESSEMPMyDocument.logout)
   val myDocumentDeleteex = exec(ESSEMPMyDocument.loadMyDocument,ESSEMPMyDocument.searchItem,ESSEMPMyDocument.deleteDocumentItem,ESSEMPMyDocument.logout)
   val MyServiceHistoryex = exec(ESSEMPMyServiceHistory.loadServicePage,ESSEMPMyServiceHistory.searchService,ESSEMPMyServiceHistory.logout)
+
+
+
   //SUP
   val MyTeamViewClaimEntitlementex = exec(ESSSUPMyTeamViewClaimEntitlement.LoadClaimEntitlement,ESSSUPMyTeamViewClaimEntitlement.searchClaimEntitlement   ,ESSSUPMyTeamViewClaimEntitlement.logout)
   val MyTeamViewLeaveEntitlementex = exec(ESSSUPMyTeamViewLeaveEntitlement.loadLeaveEntitlement,ESSSUPMyTeamViewLeaveEntitlement.clickLeaveEntitlement   ,ESSSUPMyTeamViewLeaveEntitlement.logout)
@@ -65,6 +74,9 @@ class DailyTransaction extends Simulation{
 
   val debug = exec(session => {
 
+    //println(queue_size)
+    val haha = session("MLEBody").as[String]
+    println(s"Body $haha")
     //val leaveDetail = session("ViewBalance").as[String]
     //println(s"Leave Detail : $leaveDetail")
 
@@ -92,6 +104,14 @@ class DailyTransaction extends Simulation{
   val ApplyLeaveSaveDraft = scenario("Apply Leave Save Draft").exec(login,ALSaveDraftex,debug)
   val ApplyLeaveDeleteDraft = scenario("Apply Leave Delete Draft").exec(login,ALDeleteDraftex,debug)
   val ApplyLeaveSubmitDraft = scenario("Apply Leave Submit Draft").exec(login,ALSubmitDraftex,debug)
+
+  //
+  val CancelLeaveScenario = scenario("Cancel Leave").exec(login,CancelLeave,debug)
+  val MyLeaveEntitlementScenario = scenario("My Leave Entitlement").exec(login,EmpLeaveEntitlement,debug)
+  val MyLeaveApplicationScenario = scenario("My leave Scenario").exec(login,EMPLeaveApplication,debug)
+
+
+  //
   val MyClaimApplicationCheck = scenario("My Claim Application Check Claim").exec(login,checkClaimApplicationex,debug)
   val MyClaimApplicationWithdraw = scenario("My Claim Application Withdraw Claim").exec(login,withdrawClaimApplicationex,debug)
   val MyDocumentCreate = scenario("My Document Create").exec(login,myDocumentCreateex,debug)
@@ -116,6 +136,6 @@ class DailyTransaction extends Simulation{
   val ExpensesDetailsforFinanceListing = scenario("Expenses Details For Finance").exec(loginHr,ExpensesDetailsforFinanceex,debug)
   val ExpensesDetailsforClaimListing = scenario("Expenses Details For Claim").exec(loginHr,ExpensesDetailsforClaimex,debug)
 
-  setUp(MyServiceHistory.inject(atOnceUsers(1))).protocols(httpProtocol)
+  setUp(MyLeaveEntitlementScenario.inject(atOnceUsers(1))).protocols(httpProtocol)
 
 }

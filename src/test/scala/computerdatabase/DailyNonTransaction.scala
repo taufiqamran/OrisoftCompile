@@ -17,26 +17,71 @@ import computerdatabase.Module.Workflow._
 class DailyNonTransaction extends Simulation{
 
 
+  val domain = "https://orisoftst.orisoftsaas.com"
   val httpProtocol = http
-    .baseUrl("https://orisoftst.orisoftsaas.com")
+    .baseUrl(domain)
     .disableFollowRedirect
 
+  val loginFeeder8000 = csv("data/EMP8000.csv").random
+  var loginFeeder = csv("data/ESSEMPLogin1000.csv").queue
   var loginFeeder1 = csv("data/ESSEMPLogin1001-2000.csv").queue
+  var loginFeeder2 = csv("data/ESSEMPLogin2001-3000.csv").queue
+  var loginFeeder3 = csv("data/ESSEMPLogin3001-4000.csv").queue
+  var loginFeeder4 = csv("data/ESSEMPLogin4001-5000.csv").queue
+  var loginFeeder5 = csv("data/ESSEMPLogin5001-6000.csv").queue
+  var loginFeeder6 = csv("data/ESSEMPLogin6001-7000.csv").queue
+  var loginFeeder7 = csv("data/ESSEMPLogin7001-7500.csv").queue
 
   var loginClaimFeeder1 = csv("data/ESSEMPLogin-Claim100.csv").queue
+  var loginClaimFeeder2 = csv("data/ESSEMPLogin-Claim200.csv").queue
 
   val loginSupFeeder1 = csv("data/superior_Credential.csv").queue
+  val loginSupFeeder2 = csv("data/superior_Credential.csv").queue
+  val loginSupFeeder3 = csv("data/superior_Credential.csv").queue
+  val loginSupFeeder4 = csv("data/superior_Credential.csv").queue
+  val loginSupFeeder5 = csv("data/superior_Credential.csv").queue
+  val loginSupFeeder6 = csv("data/superior_Credential.csv").queue
+  val loginSupFeeder7 = csv("data/superior_Credential.csv").queue
+  val loginSupFeeder8 = csv("data/superior_Credential.csv").queue
+  val loginSupFeeder9 = csv("data/superior_Credential.csv").queue
+  val loginSupFeeder10 = csv("data/superior_Credential.csv").queue
 
   val loginHrFeeder = csv("data/hr_Credential.csv").queue
 
+  //No of Users
+  val EMPNo = 1
+  val SUPNo = 1
+  val EMPNoClaim = 1
+  val HRNo = 1
+
+  //Duration
+  val scriptDuration = 6
+
   //Login Employee
-  val login = feed(loginFeeder1).exec(Login.loginProcess).exec(Login.loadDashboard)
+
+  val login1 = feed(loginFeeder1).exec(Login.loginProcess).exec(Login.loadDashboard)
+  val login2 = feed(loginFeeder2).exec(Login.loginProcess).exec(Login.loadDashboard)
+  val login3 = feed(loginFeeder3).exec(Login.loginProcess).exec(Login.loadDashboard)
+  val login4 = feed(loginFeeder4).exec(Login.loginProcess).exec(Login.loadDashboard)
+  val login5 = feed(loginFeeder5).exec(Login.loginProcess).exec(Login.loadDashboard)
+  val login6 = feed(loginFeeder6).exec(Login.loginProcess).exec(Login.loadDashboard)
+  val login7 = feed(loginFeeder7).exec(Login.loginProcess).exec(Login.loadDashboard)
 
   //Login Employee Claim
   val loginClaim = feed(loginClaimFeeder1).exec(Login.loginProcess).exec(Login.loadDashboard)
+  val loginClaim2 = feed(loginClaimFeeder2).exec(Login.loginProcess).exec(Login.loadDashboard)
 
   //Login Superior
   val loginSup = feed(loginSupFeeder1).exec(Login.loginProcess).exec(Login.loadDashboard)
+  val loginSup1 = feed(loginSupFeeder2).exec(Login.loginProcess).exec(Login.loadDashboard)
+  val loginSup2 = feed(loginSupFeeder3).exec(Login.loginProcess).exec(Login.loadDashboard)
+  val loginSup3 = feed(loginSupFeeder4).exec(Login.loginProcess).exec(Login.loadDashboard)
+  val loginSup4 = feed(loginSupFeeder5).exec(Login.loginProcess).exec(Login.loadDashboard)
+  val loginSup5 = feed(loginSupFeeder6).exec(Login.loginProcess).exec(Login.loadDashboard)
+  val loginSup6 = feed(loginSupFeeder7).exec(Login.loginProcess).exec(Login.loadDashboard)
+  val loginSup7 = feed(loginSupFeeder8).exec(Login.loginProcess).exec(Login.loadDashboard)
+  val loginSup8 = feed(loginSupFeeder9).exec(Login.loginProcess).exec(Login.loadDashboard)
+  val loginSup9 = feed(loginSupFeeder10).exec(Login.loginProcess).exec(Login.loadDashboard)
 
   //Login HR
   val loginHr = feed(loginHrFeeder).exec(Login.loginProcess).exec(Login.loadDashboard)
@@ -47,19 +92,19 @@ class DailyNonTransaction extends Simulation{
   val MyServiceHistoryex = exec(ESSEMPMyServiceHistory.loadServicePage,ESSEMPMyServiceHistory.searchService,ESSEMPMyServiceHistory.logout)
   val myDocumentCreateex = exec(ESSEMPMyDocument.loadMyDocument,ESSEMPMyDocument.logout)
   val EmpMyWorkflowex = exec(ESSEMPMyWorkflow.loadApplication,ESSEMPMyWorkflow.logout)
-  val ApplyClaimex = exec(ESSEMPMyApplyClaim.loadApplication,ESSEMPMyApplyClaim.logout)
+  val ApplyClaimex = exec(ESSEMPApplyClaim.loadApplication,ESSEMPApplyClaim.logout1)
   val MyLeaveApplicationex = exec(ESSEMPMyLeaveApplication.loadApplication,ESSEMPMyLeaveApplication.searchMLADate,ESSEMPMyLeaveApplication.logout)
   val MyLeaveEntitlementex = exec(ESSEMPMyLeaveEntitlement.loadApplication,ESSEMPMyLeaveEntitlement.searchEntitle,ESSEMPMyLeaveApplication.logout)
   val MyProfileSubmitex = exec(ESSEMPMyProfile.loadApplication,ESSEMPMyProfile.logout)
 
   //SUP
-  val MyTeamViewClaimEntitlementex = exec(ESSSUPMyTeamViewClaimEntitlement.LoadClaimEntitlement,ESSSUPMyTeamViewClaimEntitlement.searchClaimEntitlement   ,ESSSUPMyTeamViewClaimEntitlement.logout)
-  val MyTeamViewLeaveEntitlementex = exec(ESSSUPMyTeamViewLeaveEntitlement.loadLeaveEntitlement,ESSSUPMyTeamViewLeaveEntitlement.clickLeaveEntitlement   ,ESSSUPMyTeamViewLeaveEntitlement.logout)
-  val MyTeamViewLeaveApplicationex = exec(ESSSUPMyTeamViewLeaveApplication.loadLeaveApplication,ESSSUPMyTeamViewLeaveApplication.searchLeave,ESSSUPMyTeamViewLeaveApplication.clickRequestId,ESSSUPMyTeamViewLeaveApplication.logout)
+  val MyTeamViewClaimEntitlementex = exec(ESSSUPMyTeamViewClaimEntitlement.LoadClaimEntitlement,ESSSUPMyTeamViewClaimEntitlement.searchClaimEntitlement,ESSSUPMyTeamViewClaimEntitlement.logout)
+  val MyTeamViewLeaveEntitlementex = exec(ESSSUPMyTeamViewLeaveEntitlement.loadLeaveEntitlement,ESSSUPMyTeamViewLeaveEntitlement.clickLeaveEntitlement,ESSSUPMyTeamViewLeaveEntitlement.logout)
+  val MyTeamViewLeaveApplicationex = exec(ESSSUPMyTeamViewLeaveApplication.loadLeaveApplication,ESSSUPMyTeamViewLeaveApplication.searchLeave,ESSSUPMyTeamViewLeaveApplication.logout)
   val MyTeamViewClaimApplicationex = exec(ESSSUPMyTeamViewClaimApplication.loadViewClaimApplication,ESSSUPMyTeamViewClaimApplication.clickRequestId,ESSSUPMyTeamViewClaimApplication.closeClaimApplication,ESSSUPMyTeamViewClaimApplication.logout)
-  val MyWorkflowClaimex = exec(ESSSUPMyWorkflowClaimView.loadApplication,ESSSUPMyWorkflowClaimView.logout)
-  val MyWorkflowDelegationex = exec(ESSSUPMyWorkflowDelegationView.loadApplication,ESSSUPMyWorkflowDelegationView.logout)
-  val MyWorkflowEprofileChangeex = exec(ESSSUPMyWorkflowEProfileChangesView.loadApplication,ESSSUPMyWorkflowEProfileChangesView.logout)
+  val MyWorkflowClaimex = exec(ESSSUPMyWorkflowClaim.loadApplication,ESSSUPMyWorkflowClaim.logout)
+  val MyWorkflowDelegationex = exec(ESSSUPMyWorkflowDelegation.loadApplication,ESSSUPMyWorkflowDelegation.logout)
+  val MyWorkflowEprofileChangeex = exec(ESSSUPMyWorkflowEProfileChanges.loadApplication,ESSSUPMyWorkflowEProfileChanges.logout)
   val MyWorkflowMassApprovalex = exec(ESSSUPMyWorkflowMassApprovalView.loadApplication,ESSSUPMyWorkflowMassApprovalView.logout)
   val MyWorkflowViewLeaveApplicationex = exec(ESSSUPMyWorkflowViewLeaveApplication.loadApplication,ESSSUPMyWorkflowViewLeaveApplication.logout)
 
@@ -81,13 +126,13 @@ class DailyNonTransaction extends Simulation{
   })
 
   //EMP
-  val ApplyLeaveSaveDraft = scenario("Apply Leave Save Draft").exec(login,ALSaveDraftex,debug)
-  val MyDocumentCreate = scenario("My Document Create").exec(login,myDocumentCreateex,debug)
-  val MyServiceHistory = scenario("My Service History").exec(login,MyServiceHistoryex,debug)
-  val MyWorkFlowLeave = scenario("My Workflow Leave").exec(login,EmpMyWorkflowex,debug)
-  val MyLeaveApplication = scenario("My Leave Application").exec(login,MyLeaveApplicationex,debug)
-  val MyLeaveEntitlement = scenario("My Leave Entitlement").exec(login,MyLeaveEntitlementex,debug)
-  val MyProfileSubmit = scenario("My Profile Submit").exec(login,MyProfileSubmitex,debug)
+  val ApplyLeaveSaveDraft = scenario("Apply Leave Save Draft").exec(login1,ALSaveDraftex,debug)
+  val MyDocumentCreate = scenario("My Document Create").exec(login1,myDocumentCreateex,debug)
+  val MyServiceHistory = scenario("My Service History").exec(login1,MyServiceHistoryex,debug)
+  val MyWorkFlowLeave = scenario("My Workflow Leave").exec(login1,EmpMyWorkflowex,debug)
+  val MyLeaveApplication = scenario("My Leave Application").exec(login1,MyLeaveApplicationex,debug)
+  val MyLeaveEntitlement = scenario("My Leave Entitlement").exec(login1,MyLeaveEntitlementex,debug)
+  val MyProfileSubmit = scenario("My Profile Submit").exec(login1,MyProfileSubmitex,debug)
 
   //EMP CLaim
   val ApplyClaim = scenario("Apply Claim Save Draft").exec(loginClaim,ApplyClaimex,debug)
@@ -116,32 +161,35 @@ class DailyNonTransaction extends Simulation{
   val ExpensesDetailsforClaimListing = scenario("Expenses Details For Claim").exec(loginHr,ExpensesDetailsforClaimex,debug)
 
 
-  setUp(ApplyLeaveSaveDraft.inject(atOnceUsers(1)),
-  MyDocumentCreate.inject(atOnceUsers(1)),
-  MyServiceHistory.inject(atOnceUsers(1)),
- MyWorkFlowLeave.inject(atOnceUsers(1)),
- MyLeaveApplication.inject(atOnceUsers(1)),
- MyLeaveEntitlement.inject(atOnceUsers(1)),
- MyProfileSubmit.inject(atOnceUsers(1)),
- ApplyClaim.inject(atOnceUsers(1)),
- MyClaimApplicationCheck.inject(atOnceUsers(1)),
- MyTeamViewClaimEntitlement.inject(atOnceUsers(1)),
- MyTeamViewLeaveEntitlement.inject(atOnceUsers(1)),
- MyTeamViewLeaveApplication.inject(atOnceUsers(1)),
- MyTeamViewClaimApplication.inject(atOnceUsers(1)),
-  ProfileEmployeeListingReportS.inject(atOnceUsers(1)),
-  ProfileEmployeeMovementReportS.inject(atOnceUsers(1)),
-  ProfileFixedTransactionListingS.inject(atOnceUsers(1)),
-  LeaveEmployeeApproverListingS.inject(atOnceUsers(1)),
-  LeaveApplicationReportListingS.inject(atOnceUsers(1)),
-  LeaveEntitlementReportListingS.inject(atOnceUsers(1)),
-  ClaimApplicationReportListing.inject(atOnceUsers(1)),
-  ExpensesDetailsforFinanceListing.inject(atOnceUsers(1)),
-  ExpensesDetailsforClaimListing.inject(atOnceUsers(1)),
-    MyWorkflowClaim.inject(atOnceUsers(1)),
- MyWorkflowDelegation.inject(atOnceUsers(1)),
- MyWorkflowEprofileChanges.inject(atOnceUsers(1)),
- MyWorkflowMassApproval.inject(atOnceUsers(1)),
- MyWorkflowViewLeaveApplication.inject(atOnceUsers(1))
+  setUp(
+    MyLeaveApplication.inject(rampUsers(EMPNo).during(scriptDuration.minutes)),
+    MyLeaveEntitlement.inject(rampUsers(EMPNo).during(scriptDuration.minutes)),
+    MyProfileSubmit.inject(rampUsers(EMPNo).during(scriptDuration.minutes)),
+    MyServiceHistory.inject(rampUsers(EMPNo).during(scriptDuration.minutes)),
+    MyWorkFlowLeave.inject(rampUsers(EMPNo).during(scriptDuration.minutes)),
+    MyDocumentCreate.inject(rampUsers(EMPNo).during(scriptDuration.minutes)),
+    ApplyLeaveSaveDraft.inject(rampUsers(EMPNo).during(scriptDuration.minutes)),
+
+    ApplyClaim.inject(rampUsers(EMPNoClaim).during(scriptDuration.minutes)),
+    MyClaimApplicationCheck.inject(rampUsers(EMPNoClaim).during(scriptDuration.minutes)),
+    MyTeamViewLeaveApplication.inject(rampUsers(SUPNo).during(scriptDuration.minutes)),
+    MyTeamViewClaimEntitlement.inject(rampUsers(SUPNo).during(scriptDuration.minutes)),
+    MyTeamViewLeaveEntitlement.inject(rampUsers(SUPNo).during(scriptDuration.minutes)),
+    MyWorkflowClaim.inject(rampUsers(SUPNo).during(scriptDuration.minutes)),
+    MyWorkflowDelegation.inject(rampUsers(SUPNo).during(scriptDuration.minutes)),
+    MyWorkflowEprofileChanges.inject(rampUsers(SUPNo).during(scriptDuration.minutes)),
+    MyWorkflowMassApproval.inject(rampUsers(SUPNo).during(scriptDuration.minutes)),
+    MyWorkflowViewLeaveApplication.inject(rampUsers(SUPNo).during(scriptDuration.minutes)),
+
+    ProfileEmployeeListingReportS.inject(rampUsers(HRNo).during(scriptDuration.minutes)),
+    ProfileEmployeeMovementReportS.inject(rampUsers(HRNo).during(scriptDuration.minutes)),
+    ProfileFixedTransactionListingS.inject(rampUsers(HRNo).during(scriptDuration.minutes)),
+    LeaveEmployeeApproverListingS.inject(rampUsers(HRNo).during(scriptDuration.minutes)),
+    LeaveApplicationReportListingS.inject(rampUsers(HRNo).during(scriptDuration.minutes)),
+    LeaveEntitlementReportListingS.inject(rampUsers(HRNo).during(scriptDuration.minutes)),
+    ClaimApplicationReportListing.inject(rampUsers(HRNo).during(scriptDuration.minutes)),
+    ExpensesDetailsforFinanceListing.inject(rampUsers(HRNo).during(scriptDuration.minutes)),
+    ExpensesDetailsforClaimListing.inject(rampUsers(HRNo).during(scriptDuration.minutes))
+
   ).protocols(httpProtocol)
 }

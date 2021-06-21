@@ -81,7 +81,7 @@ object ESSSUPMyTeamViewLeaveApplication {
           .formParam("ctl00$ctl00$ctl00$cntPlcHldrContent$cntPlcHldrContent$cntPlcHldrCriteria$hfViewBy", "S")
           .formParam("ctl00$ctl00$ctl00$cntPlcHldrContent$cntPlcHldrContent$cntPlcHldrCriteria$hfStoreAsHr", "0")
           .formParam("ctl00$ctl00$ctl00$cntPlcHldrContent$cntPlcHldrContent$cntPlcHldrCriteria$txtDateFrom", "29/03/2020")
-          .formParam("ctl00$ctl00$ctl00$cntPlcHldrContent$cntPlcHldrContent$cntPlcHldrCriteria$txtDateTo", "28/04/2021")
+          .formParam("ctl00$ctl00$ctl00$cntPlcHldrContent$cntPlcHldrContent$cntPlcHldrCriteria$txtDateTo", "28/04/2022")
           .formParam("ctl00$ctl00$ctl00$cntPlcHldrContent$cntPlcHldrContent$cntPlcHldrCriteria$hfSubordinate", "")
           .formParam("ctl00$ctl00$ctl00$cntPlcHldrContent$cntPlcHldrContent$cntPlcHldrCriteria$hfSubordinateNo", "")
           .formParam("ctl00$ctl00$ctl00$cntPlcHldrContent$cntPlcHldrContent$cntPlcHldrCriteria$txtSubordinate", "")
@@ -231,7 +231,8 @@ object ESSSUPMyTeamViewLeaveApplication {
       .exec(session => {
 
         val bodyLeave = session("Leave Detail").as[String]
-        println("URL : ${url}")
+        val bodyUrl = session("url").as[String]
+        println(s"URL : $bodyUrl")
         println(s"Body : $bodyLeave")
 
         session

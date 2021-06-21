@@ -75,12 +75,16 @@ object ESSEMPMyLeaveEntitlement {
         .exec(http("request_71")
           .get(uri4 + "?family=Roboto:400,300,500,700")
         )
+        .exec(session =>{
+          val view = session("viewState").as[String]
+          println(s"View $view  ")
+          session
+        })
     }
 
     def searchEntitle = {
       exec(http("Search Year")
         .post("/profile/leave_ent.aspx?Mode=E")
-
         .formParam("__EVENTTARGET", "ctl00$ctl00$ctl00$cntPlcHldrContent$btnSearch")
         .formParam("__EVENTARGUMENT", "")
         .formParam("_TSM_HiddenField_", "ZaMfZ6yYhPPHZ1NeEf8j6-t902-6pHpn2MehV0eep-I1")
