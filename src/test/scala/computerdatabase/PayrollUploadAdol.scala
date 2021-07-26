@@ -283,6 +283,15 @@ class PayrollUploadAdol extends Simulation {
 		.exec(http("Upload 1")
 			.post("/ASPxUploadProgressHandlerPage.ashx?DXProgressHandlerKey=${uploadKey}&DXHelperUploadingCallback=fuTransaction")
 			.formParamMap(Map(
+				"sNewUploading" -> "true",
+				"Settings" -> "${setting}",
+				"State" -> "",
+				"TotalSize" -> "17388",
+				"FileIndex" -> "0",
+				"FileSize" -> "17388",
+				"FileType" -> "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+				"ChunkSize" -> "17388",
+				"FileName" -> "Payroll Transaction Uploadkaka.xlsx"))
 			.bodyPart(RawFileBodyPart("Data", "data/Payroll Transaction Uploadkaka.xlsx")
 				.fileName("Payroll Transaction Uploadkaka.xlsx")
 				.transferEncoding("binary"))
